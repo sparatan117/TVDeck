@@ -34,3 +34,30 @@ jobs:
         with:
           files: TVDeck.flatpak
           generate_release_notes: true
+
+  # Flathub's own checks for the submission manifest and metainfo. Not
+  # blocking yet: it will flag missing screenshots until they're added.
+  flathub-lint:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.8
+      options: --privileged
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install linter
+        run: |
+          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          flatpak install -y --noninteractive flathub org.flatpak.Builder
+
+      - name: Lint manifest
+        run: >
+          flatpak run --command=flatpak-builder-lint org.flatpak.Builder
+          manifest packaging/flathub/io.github.sparatan117.TVDeck.yml
+
+      - name: Lint metainfo
+        if: always()
+        run: >
+          flatpak run --command=flatpak-builder-lint org.flatpak.Builder
+          appstream packaging/io.github.sparatan117.TVDeck.metainfo.xml

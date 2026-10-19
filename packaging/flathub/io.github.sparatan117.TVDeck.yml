@@ -1,0 +1,38 @@
+# Flathub submission manifest for TVDeck.
+#
+# Same as packaging/flatpak/io.github.sparatan117.TVDeck.yml, but builds a
+# tagged release from git, as Flathub requires. Update the tag and commit
+# with packaging/flathub/set-release.sh after tagging a release.
+app-id: io.github.sparatan117.TVDeck
+runtime: org.kde.Platform
+runtime-version: '6.8'
+sdk: org.kde.Sdk
+base: io.qt.qtwebengine.BaseApp
+base-version: '6.8'
+command: tvdeck
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=dri
+  # Gamepads: SDL reads controllers through hidraw/evdev, which only
+  # --device=all exposes on flatpak < 1.15.6 (--device=input is newer).
+  - --device=all
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --env=QTWEBENGINEPROCESS_PATH=/app/bin/QtWebEngineProcess
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
+modules:
+  - name: tvdeck
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+    sources:
+      - type: git
+        url: https://github.com/sparatan117/TVDeck.git
+        tag: v0.1.0
+        commit: COMMIT_SHA

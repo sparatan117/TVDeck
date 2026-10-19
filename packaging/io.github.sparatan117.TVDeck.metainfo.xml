@@ -27,9 +27,29 @@
     <category>AudioVideo</category>
     <category>Video</category>
   </categories>
-  <supports>
+  <provides>
+    <binary>tvdeck</binary>
+  </provides>
+  <recommends>
     <control>gamepad</control>
+  </recommends>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
   </supports>
+  <requires>
+    <internet>always</internet>
+  </requires>
+  <branding>
+    <color type="primary" scheme_preference="light">#ff8a92</color>
+    <color type="primary" scheme_preference="dark">#5a1a20</color>
+  </branding>
+  <!-- TODO before submitting to Flathub: add 16:9 screenshots taken on a
+       Steam Deck, hosted in this repo at a tagged URL, e.g.
+       https://raw.githubusercontent.com/sparatan117/TVDeck/v0.1.0/docs/screenshots/launcher.png -->
+  <!-- TVDeck ships no content of its own. Like a web browser, what it shows
+       depends on the services the user signs in to, so no OARS attributes
+       apply to the app itself. -->
   <content_rating type="oars-1.1"/>
   <releases>
     <release version="0.1.0" date="2026-10-19"/>
