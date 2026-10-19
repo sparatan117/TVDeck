@@ -1,5 +1,7 @@
 # TVDeck
 
+A Streaming Deck Experience for your SteamOS Machine.
+
 A controller-first launcher for streaming services on **Steam Deck** and
 **Steam Machine**, in the spirit of ES-DE: a 10-foot carousel of services,
 each one opened in a lightweight Chromium view and driven entirely from the
@@ -109,4 +111,4 @@ How the pieces fit together: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+GPL-3.0 — see [LICENSE](LICENSE).
