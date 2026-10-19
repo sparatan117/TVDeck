@@ -1,6 +1,6 @@
 import QtQuick
 import QtWebEngine
-import Sofa.Native
+import StreamDeck.Native
 
 // Hosts one streaming service in a Chromium view and translates controller
 // actions into calls on the injected page bridge (scripts/common/bridge.js).
@@ -13,6 +13,9 @@ Item {
     // Reported by the page bridge.
     property string pageContext: "browse"
     property bool playing: false
+
+    // Must match post() in scripts/common/bridge.js.
+    readonly property string bridgePrefix: "__streamdeck:"
 
     signal exitRequested()
     signal osdRequested(string text)
@@ -35,7 +38,7 @@ Item {
         }
 
         const raw = arg ? name + ":" + arg : name
-        const call = "window.__sofa ? window.__sofa.handle(" + JSON.stringify(name) + ","
+        const call = "window.__streamdeck ? window.__streamdeck.handle(" + JSON.stringify(name) + ","
                      + JSON.stringify(arg) + ") : 'fallback'"
         web.runJavaScript(call, function (result) {
             if (result === "exit") {
@@ -81,7 +84,7 @@ Item {
             web.lifecycleState = WebEngineView.LifecycleState.Active
             web.forceActiveFocus()
         } else {
-            web.runJavaScript("window.__sofa && window.__sofa.handle('pause')")
+            web.runJavaScript("window.__streamdeck && window.__streamdeck.handle('pause')")
             playing = false
             // Let the pause land before freezing; a page can't be frozen
             // while it's still visible anyway.
@@ -116,17 +119,17 @@ Item {
         onTriggered: web.reload()
     }
 
-    // Page console output: QT_LOGGING_RULES="sofa.page.debug=true"
+    // Page console output: QT_LOGGING_RULES="streamdeck.page.debug=true"
     LoggingCategory {
         id: pageLog
-        name: "sofa.page"
+        name: "streamdeck.page"
         defaultLogLevel: LoggingCategory.Warning
     }
 
     WebEngineProfile {
         id: profile
         // Separate cookie jar and cache per service.
-        storageName: "sofa-" + root.service.id
+        storageName: "streamdeck-" + root.service.id
         offTheRecord: false
         persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
         httpCacheType: WebEngineProfile.DiskHttpCache
@@ -149,8 +152,8 @@ Item {
         settings.focusOnNavigationEnabled: true
 
         onJavaScriptConsoleMessage: function (level, message, lineNumber, sourceId) {
-            if (message.startsWith("__sofa:"))
-                root.onBridgeMessage(message.slice(7))
+            if (message.startsWith(root.bridgePrefix))
+                root.onBridgeMessage(message.slice(root.bridgePrefix.length))
             else
                 console.debug(pageLog, message)
         }
@@ -183,7 +186,7 @@ Item {
         profile.httpUserAgent = profile.httpUserAgent.replace(/ ?QtWebEngine\/\S+/, "")
 
         const script = WebEngine.script()
-        script.name = "sofa-" + service.id
+        script.name = "streamdeck-" + service.id
         script.sourceCode = Services.scriptBundle(service.id)
         script.injectionPoint = WebEngineScript.DocumentReady
         script.worldId = WebEngineScript.MainWorld

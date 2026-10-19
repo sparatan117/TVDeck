@@ -4,15 +4,15 @@
 without a streaming account. Register it as a user service:
 
 ```sh
-mkdir -p ~/.local/share/sofa/services
-cat > ~/.local/share/sofa/services/navtest.json <<JSON
+mkdir -p ~/.local/share/streamdeck/services
+cat > ~/.local/share/streamdeck/services/navtest.json <<JSON
 { "id": "navtest", "name": "Nav test", "url": "file://$PWD/dev/nav-test.html",
   "scripts": ["common/bridge.js", "common/spatial-nav.js"] }
 JSON
-QT_LOGGING_RULES="sofa.page.debug=true" ./build/sofa --windowed --service navtest
+QT_LOGGING_RULES="streamdeck.page.debug=true" ./build/streamdeck --windowed --service navtest
 ```
 
-Page `console.log` output and bridge messages appear under the `sofa.page`
+Page `console.log` output and bridge messages appear under the `streamdeck.page`
 logging category.
 
 Without a controller, the launcher accepts arrows / Enter / Escape, and F10

@@ -7,11 +7,11 @@
                               ▼                               └─► ServiceView
                         VirtualPointer ── QMouseEvent ──►          │ runJavaScript
                                           (trusted)                ▼
-                                                        window.__sofa.handle()
+                                                        window.__streamdeck.handle()
                                                           bridge.js
                                                           spatial-nav.js
                                                           <service>.js
-                                                               │ console "__sofa:{...}"
+                                                               │ console "__streamdeck:{...}"
                                                                ▼
                                                         context / playing / osd
 ```
@@ -51,9 +51,9 @@ A service is a JSON file:
 }
 ```
 
-Built-ins live in `services/`. Files in `~/.local/share/sofa/services/`
+Built-ins live in `services/`. Files in `~/.local/share/streamdeck/services/`
 add services or replace a built-in with the same `id`; scripts are looked up
-in `~/.local/share/sofa/scripts/` first, so a site change can be patched
+in `~/.local/share/streamdeck/scripts/` first, so a site change can be patched
 without a rebuild.
 
 Each service gets its own persistent `WebEngineProfile` (cookies, cache), so
@@ -65,8 +65,8 @@ The scripts are concatenated and injected into the page's main world at
 DocumentReady (main world, because the Netflix adapter needs the site's own
 `window.netflix` object).
 
-Native → page: `window.__sofa.handle(action, arg)`, whose return value tells
-Sofa what to do next:
+Native → page: `window.__streamdeck.handle(action, arg)`, whose return value tells
+StreamDeck what to do next:
 
 | Return | Meaning |
 |---|---|
@@ -75,7 +75,7 @@ Sofa what to do next:
 | `'exit'` | go back to the launcher (e.g. B on the service's home page) |
 | `'keyboard'` | a text field is focused; open Steam's keyboard |
 
-Page → native: console messages prefixed `__sofa:` with a JSON body. Only
+Page → native: console messages prefixed `__streamdeck:` with a JSON body. Only
 `context`, `playing` and `osd` are accepted, and the native side treats them
 as untrusted (the site could print the same thing).
 

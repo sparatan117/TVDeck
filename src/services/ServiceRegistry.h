@@ -4,7 +4,7 @@
 #include <QVariantList>
 
 // Loads service definitions (services/*.json) from the built-in resources and
-// from $XDG_DATA_HOME/sofa/services, so users can add or patch services
+// from $XDG_DATA_HOME/streamdeck/services, so users can add or patch services
 // without rebuilding. A user file with the same "id" replaces the built-in.
 class ServiceRegistry : public QObject
 {

@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# Installs Google's Widevine CDM for Sofa.
+# Installs Google's Widevine CDM for StreamDeck.
 #
-# Widevine can't be redistributed, so Sofa never ships it. This script pulls
+# Widevine can't be redistributed, so StreamDeck never ships it. This script pulls
 # the CDM out of Google's official Chrome package on your own machine, the
 # same way Firefox and Chromium distributions do.
 #
-# Usage: sofa-install-widevine [--flatpak] [--uninstall]
+# Usage: streamdeck-install-widevine [--flatpak] [--uninstall]
 set -euo pipefail
 
-APP_ID="io.github.sofa.Sofa"
+APP_ID="io.github.streamdeck.StreamDeck"
 CHROME_DEB="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
-dest="${XDG_DATA_HOME:-$HOME/.local/share}/sofa/widevine"
+dest="${XDG_DATA_HOME:-$HOME/.local/share}/streamdeck/widevine"
 uninstall=0
 for arg in "$@"; do
   case "$arg" in
-    --flatpak) dest="$HOME/.var/app/$APP_ID/data/sofa/widevine" ;;
+    --flatpak) dest="$HOME/.var/app/$APP_ID/data/streamdeck/widevine" ;;
     --uninstall) uninstall=1 ;;
     -h|--help) sed -n '2,9p' "$0"; exit 0 ;;
     *) echo "Unknown option: $arg" >&2; exit 2 ;;
@@ -71,4 +71,4 @@ mkdir -p "$(dirname "$dest")"
 cp -r "$src" "$dest"
 version="$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$dest/manifest.json" | head -1)"
 echo "Installed Widevine ${version:-?} to $dest"
-echo "Restart Sofa to pick it up."
+echo "Restart StreamDeck to pick it up."

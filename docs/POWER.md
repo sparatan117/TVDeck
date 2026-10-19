@@ -1,10 +1,10 @@
 # Power and battery
 
 Video playback dominates power draw, so most of the work is making sure
-Sofa adds nothing on top of the browser and that the browser does as little
+StreamDeck adds nothing on top of the browser and that the browser does as little
 as possible.
 
-## What Sofa does
+## What StreamDeck does
 
 | Area | Approach |
 |---|---|
@@ -16,7 +16,7 @@ as possible.
 | Page scripts | Event-driven: no polling loops, no MutationObservers; the focus ring redraws on scroll/resize via `requestAnimationFrame`. Hover previews (autoplaying trailers) are never triggered by focus. |
 | Screen | Sleep is inhibited only while video is actually playing. |
 
-`keepWarmMinutes` lives in `~/.config/sofa/sofa.conf`:
+`keepWarmMinutes` lives in `~/.config/streamdeck/streamdeck.conf`:
 
 ```ini
 [session]
@@ -33,10 +33,10 @@ hardware:
    `VaapiVideoDecoder` in the log, or check GPU video engine load with
    `radeontop` / `nvtop` while playing.
 2. **Power draw.** On the Deck, Performance Overlay level 3+ shows battery
-   watts. Compare 10 minutes of the same title in Sofa vs. a reference
+   watts. Compare 10 minutes of the same title in StreamDeck vs. a reference
    browser, with screen brightness fixed.
 3. **Idle cost.** With the launcher showing, CPU should sit near 0%
-   (`top -p $(pgrep sofa)`); with a frozen service, its renderer process
+   (`top -p $(pgrep streamdeck)`); with a frozen service, its renderer process
    should show no CPU at all.
 
 Gamescope's frame limiter (Quick Access → Performance) also helps: 30 fps

@@ -25,7 +25,7 @@ ServiceRegistry::ServiceRegistry(QObject *parent)
     loadDir(QStringLiteral(":/services"), QStringLiteral(":/scripts"));
 
     const QString user = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
-                         + QStringLiteral("/sofa");
+                         + QStringLiteral("/streamdeck");
     loadDir(user + QStringLiteral("/services"), user + QStringLiteral("/scripts"));
 }
 

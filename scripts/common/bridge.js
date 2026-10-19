@@ -1,23 +1,23 @@
-// Sofa page bridge. Injected into the service's main world at DocumentReady.
+// StreamDeck page bridge. Injected into the service's main world at DocumentReady.
 //
-// Native -> page: Sofa calls window.__sofa.handle(action, arg) and acts on
+// Native -> page: StreamDeck calls window.__streamdeck.handle(action, arg) and acts on
 // the return value:
 //   true        handled
-//   'fallback'  not handled; Sofa sends the service's keyFallbacks key instead
+//   'fallback'  not handled; StreamDeck sends the service's keyFallbacks key instead
 //   'exit'      leave the service and return to the launcher
 //   'keyboard'  a text field has focus; open Steam's on-screen keyboard
 //
-// Page -> native: messages are console lines prefixed with "__sofa:". The
+// Page -> native: messages are console lines prefixed with "__streamdeck:". The
 // page can forge these, so the native side only accepts a few harmless types.
 (function () {
   'use strict';
-  if (window.__sofa) return;
+  if (window.__streamdeck) return;
 
-  const S = window.__sofa = {
+  const S = window.__streamdeck = {
     actions: Object.create(null),
 
     post(type, data) {
-      console.info('__sofa:' + JSON.stringify({ type, data }));
+      console.info('__streamdeck:' + JSON.stringify({ type, data }));
     },
     osd(text) { S.post('osd', String(text)); },
     on(name, fn) { S.actions[name] = fn; },
@@ -30,7 +30,7 @@
           const r = fn(arg);
           result = r === undefined ? true : r;
         } catch (e) {
-          console.warn('sofa: action failed', name, e);
+          console.warn('streamdeck: action failed', name, e);
         }
       }
       // Belt and braces for SPA routers that bypass the history hooks below.

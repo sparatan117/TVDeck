@@ -1,5 +1,5 @@
 import QtQuick
-import Sofa.Native
+import StreamDeck.Native
 
 // ES-DE style carousel. Everything here is static unless input arrives:
 // Qt Quick only renders when something changes, so an idle launcher costs
@@ -42,7 +42,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.margins: 40
-        text: "Sofa"
+        text: "StreamDeck"
         color: "white"
         font.pixelSize: 34
         font.weight: Font.Black
@@ -136,7 +136,7 @@ FocusScope {
             wrapMode: Text.WordWrap
             visible: root.current !== null && root.current.requiresDrm === true && !Platform.drmAvailable
             text: qsTr("Widevine DRM isn't installed, so video won't play. "
-                       + "Run sofa-install-widevine from Desktop Mode.")
+                       + "Run streamdeck-install-widevine from Desktop Mode.")
             color: "#ffb74d"
             font.pixelSize: 18
         }
