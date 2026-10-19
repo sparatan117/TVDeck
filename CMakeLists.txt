@@ -53,5 +53,5 @@ target_link_libraries(tvdeck PRIVATE
 
 include(GNUInstallDirs)
 install(TARGETS tvdeck RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES packaging/io.github.tvdeck.TVDeck.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+install(FILES packaging/io.github.sparatan117.TVDeck.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 install(PROGRAMS scripts/install-widevine.sh DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tvdeck-install-widevine)

@@ -8,7 +8,7 @@
 # Usage: tvdeck-install-widevine [--flatpak] [--uninstall]
 set -euo pipefail
 
-APP_ID="io.github.tvdeck.TVDeck"
+APP_ID="io.github.sparatan117.TVDeck"
 CHROME_DEB="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
 dest="${XDG_DATA_HOME:-$HOME/.local/share}/tvdeck/widevine"
