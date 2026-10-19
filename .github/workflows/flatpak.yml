@@ -1,14 +1,22 @@
 name: Flatpak
 
 # Builds TVDeck.flatpak on every push and pull request (download it from the
-# run's "Artifacts"). Pushing a tag like v0.1.0 also publishes it on a
-# GitHub Release.
+# run's "Artifacts").
+#
+# To release: Actions → Flatpak → Run workflow, enter a version like v0.1.0.
+# That builds the selected branch, tags it and publishes a GitHub Release
+# with the Flatpak attached. Pushing a v* tag does the same.
 on:
   push:
     branches: [main]
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release version to tag and publish (e.g. v0.1.0). Leave empty to only build.'
+        required: false
+        default: ''
 
 jobs:
   flatpak:
@@ -28,10 +36,12 @@ jobs:
           manifest-path: packaging/flatpak/io.github.sparatan117.TVDeck.yml
           cache-key: flatpak-builder-${{ github.sha }}
 
-      - name: Attach to release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v') || inputs.release != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ inputs.release || github.ref_name }}
+          target_commitish: ${{ github.sha }}
           files: TVDeck.flatpak
           generate_release_notes: true
 

@@ -10,7 +10,9 @@ Files here are copied into the Flathub submission:
 - [ ] Tested on a Steam Deck: Netflix plays, controller works end to end
 - [ ] Screenshots added to the metainfo (see the TODO in
       `packaging/io.github.sparatan117.TVDeck.metainfo.xml`)
-- [ ] Release tagged, and `set-release.sh <tag>` run and committed
+- [ ] Release published (Actions → Flatpak → Run workflow with a version),
+      then `git fetch --tags && packaging/flathub/set-release.sh <tag>` run
+      and committed
 - [ ] The "Flathub lint" job passes in GitHub Actions
 - [ ] Read the current requirements, especially on website wrappers and
       proprietary downloads: https://docs.flathub.org/docs/for-app-authors/requirements
