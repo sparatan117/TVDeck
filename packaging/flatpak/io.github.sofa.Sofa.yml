@@ -1,0 +1,33 @@
+# Build: flatpak-builder --user --install build-flatpak packaging/flatpak/io.github.sofa.Sofa.yml
+#
+# Uses Flathub's Qt WebEngine BaseApp so we don't rebuild Chromium. Before
+# relying on it, confirm the BaseApp version you pin is built with
+# proprietary codecs (H.264/AAC); Netflix needs them.
+app-id: io.github.sofa.Sofa
+runtime: org.kde.Platform
+runtime-version: '6.8'
+sdk: org.kde.Sdk
+base: io.qt.qtwebengine.BaseApp
+base-version: '6.8'
+command: sofa
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=dri
+  # Controllers (hidraw + evdev). --device=input needs flatpak >= 1.15.6.
+  - --device=all
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --env=QTWEBENGINEPROCESS_PATH=/app/bin/QtWebEngineProcess
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
+modules:
+  - name: sofa
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+    sources:
+      - type: dir
+        path: ../..

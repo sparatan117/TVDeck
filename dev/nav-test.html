@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Fixture for spatial navigation; see dev/README.md -->
+<html>
+<body style="background:#181818;color:#eee;font:20px sans-serif;margin:40px">
+  <h1>Sofa nav test</h1>
+  <div style="display:flex;gap:16px">
+    <a href="#1">One</a><a href="#2">Two</a><a href="#3">Three</a>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:80px">
+    <button onclick="document.title='B1'">B1</button>
+    <button onclick="document.title='B2'">B2</button>
+  </div>
+  <p><input placeholder="Search"></p>
+  <div role="dialog" id="dlg" hidden style="position:fixed;inset:30%;background:#333;padding:20px">
+    <button onclick="dlg.hidden=true">Close dialog</button>
+  </div>
+  <button onclick="dlg.hidden=false">Open dialog</button>
+</body>
+</html>

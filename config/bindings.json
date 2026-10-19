@@ -1,0 +1,47 @@
+{
+  "holdMs": 650,
+  "repeat": {
+    "delayMs": 380,
+    "intervalMs": 110,
+    "buttons": ["dpup", "dpdown", "dpleft", "dpright"]
+  },
+  "contexts": {
+    "launcher": {
+      "dpleft": "nav:left",
+      "dpright": "nav:right",
+      "dpup": "nav:up",
+      "dpdown": "nav:down",
+      "a": { "action": "activate", "label": "Open" },
+      "b": { "action": "back", "label": "Quit" }
+    },
+    "browse": {
+      "dpleft": "nav:left",
+      "dpright": "nav:right",
+      "dpup": "nav:up",
+      "dpdown": "nav:down",
+      "a": { "action": "activate", "label": "Select" },
+      "b": { "action": "back", "label": "Back" },
+      "hold:b": { "action": "exit_to_launcher", "label": "Home" },
+      "x": { "action": "keyboard", "label": "Keyboard" },
+      "y": { "action": "search", "label": "Search" },
+      "leftshoulder": { "action": "page:up", "label": "Page up" },
+      "rightshoulder": { "action": "page:down", "label": "Page down" },
+      "start": { "action": "help", "label": "Controls" }
+    },
+    "player": {
+      "a": { "action": "play_pause", "label": "Play/Pause" },
+      "b": { "action": "back", "label": "Exit player" },
+      "hold:b": { "action": "exit_to_launcher", "label": "Home" },
+      "dpleft": { "action": "seek:-10", "label": "-10s" },
+      "dpright": { "action": "seek:+10", "label": "+10s" },
+      "dpup": "volume:+0.1",
+      "dpdown": "volume:-0.1",
+      "leftshoulder": { "action": "seek:-30", "label": "-30s" },
+      "rightshoulder": { "action": "seek:+30", "label": "+30s" },
+      "y": { "action": "skip", "label": "Skip intro" },
+      "x": { "action": "subtitles", "label": "Subtitles" },
+      "righttrigger": { "action": "next_episode", "label": "Next episode" },
+      "start": { "action": "help", "label": "Controls" }
+    }
+  }
+}

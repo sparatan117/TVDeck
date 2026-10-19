@@ -1,0 +1,23 @@
+{
+  "id": "netflix",
+  "name": "Netflix",
+  "description": "Movies and TV. Requires a Netflix account.",
+  "url": "https://www.netflix.com/browse",
+  "homePaths": ["/browse", "/"],
+  "accent": "#E50914",
+  "requiresDrm": true,
+  "scripts": [
+    "common/bridge.js",
+    "common/spatial-nav.js",
+    "netflix/netflix.js"
+  ],
+  "keyFallbacks": {
+    "play_pause": "Space",
+    "seek:-10": "Left",
+    "seek:+10": "Right",
+    "volume:+0.1": "Up",
+    "volume:-0.1": "Down",
+    "skip": "S",
+    "back": "Escape"
+  }
+}
