@@ -5,10 +5,10 @@
 # with packaging/flathub/set-release.sh after tagging a release.
 app-id: io.github.sparatan117.TVDeck
 runtime: org.kde.Platform
-runtime-version: '6.8'
+runtime-version: '6.11'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.8'
+base-version: '6.11'
 command: tvdeck
 finish-args:
   - --share=ipc

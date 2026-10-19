@@ -73,7 +73,7 @@ To build the Flatpak yourself: `packaging/flatpak/build.sh --install`.
 Requirements: CMake ≥ 3.21, a C++17 compiler, Qt ≥ 6.4 (Core, Gui, Qml,
 Quick, DBus, WebEngineQuick) and SDL2.
 
-**Use Qt 6.8 or newer for real use.** Netflix checks the Chromium version,
+**Use Qt 6.8 or newer for real use** (the Flatpak uses 6.11). Netflix checks the Chromium version,
 and Qt 6.4 ships Chromium 102. Qt WebEngine must also be built with
 proprietary codecs (H.264/AAC) — most distro builds are; the qt.io binaries
 are not.

@@ -4,14 +4,15 @@
 # locally, run packaging/flatpak/build.sh.
 #
 # Qt WebEngine comes from Flathub's BaseApp so we don't rebuild Chromium.
-# Netflix needs H.264/AAC: if video won't play, check that the pinned
-# BaseApp is built with proprietary codecs.
+# The BaseApp is built with proprietary codecs (H.264/AAC, which Netflix
+# needs) and patched to expose the Widevine CDM passed via --widevine-path
+# to Chromium's nested sandbox. Keep base-version in step with the runtime.
 app-id: io.github.sparatan117.TVDeck
 runtime: org.kde.Platform
-runtime-version: '6.8'
+runtime-version: '6.11'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.8'
+base-version: '6.11'
 command: tvdeck
 finish-args:
   - --share=ipc
