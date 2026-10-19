@@ -56,8 +56,11 @@ jobs:
       - name: Lint manifest
         run: |
           rc=0
-          out=$(flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
-                manifest packaging/flathub/io.github.sparatan117.TVDeck.yml 2>&1) || rc=$?
+          # The linter runs flatpak-builder, which needs a writable state dir
+          # next to the manifest.
+          cd packaging/flathub
+          out=$(flatpak run --filesystem="$PWD" --command=flatpak-builder-lint org.flatpak.Builder \
+                manifest io.github.sparatan117.TVDeck.yml 2>&1) || rc=$?
           echo "$out"
           echo "$out" | grep -E '"|error|warning' | sed 's/^/::warning title=Flathub lint (manifest)::/'
           exit $rc
@@ -66,7 +69,7 @@ jobs:
         if: always()
         run: |
           rc=0
-          out=$(flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
+          out=$(flatpak run --filesystem="$PWD" --command=flatpak-builder-lint org.flatpak.Builder \
                 appstream packaging/io.github.sparatan117.TVDeck.metainfo.xml 2>&1) || rc=$?
           echo "$out"
           echo "$out" | grep -E '"|error|warning' | sed 's/^/::warning title=Flathub lint (metainfo)::/'
