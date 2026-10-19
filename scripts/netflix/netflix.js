@@ -44,6 +44,11 @@
     }));
   }
 
+  // Like fmt() but with milliseconds, so single frames are visible.
+  function fmtPrecise(ms) {
+    return fmt(Math.floor(ms / 1000) * 1000) + '.' + String(Math.floor(ms % 1000)).padStart(3, '0');
+  }
+
   function fmt(ms) {
     const t = Math.max(0, Math.round(ms / 1000));
     const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = t % 60;
@@ -113,6 +118,32 @@
       seekBase = null;
       seekDelta = 0;
     }, 300);
+  });
+
+  // Jog dial (right-stick rotation). Netflix doesn't expose the frame rate;
+  // 23.976 fps covers most of its film and TV catalogue.
+  const FRAME_MS = 1001 / 24;
+  let frameTarget = null, frameSeekTimer = null, frameIdleTimer = null;
+  S.on('frame', arg => {
+    const p = N.player();
+    if (!p) return 'fallback';
+    if (!p.isPaused()) p.pause();
+    // Keep our own position while the user is jogging: the player's
+    // reported time lags behind back-to-back seeks.
+    if (frameTarget === null) frameTarget = p.getCurrentTime();
+    frameTarget = Math.max(0, Math.min(p.getDuration() - 2000,
+                                       frameTarget + parseFloat(arg) * FRAME_MS));
+    S.osd((parseFloat(arg) < 0 ? '◂ ' : '▸ ') + fmtPrecise(frameTarget));
+    // Seek at most every 60 ms so a fast spin doesn't queue up dozens of
+    // seeks, but still lands each notch visibly.
+    if (!frameSeekTimer) {
+      frameSeekTimer = setTimeout(() => {
+        frameSeekTimer = null;
+        p.seek(Math.round(frameTarget));
+      }, 60);
+    }
+    clearTimeout(frameIdleTimer);
+    frameIdleTimer = setTimeout(() => { frameTarget = null; }, 1500);
   });
 
   S.on('play_pause', () => {

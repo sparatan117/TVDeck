@@ -96,6 +96,14 @@
     document.querySelectorAll('video').forEach(v => v.pause());
   });
   S.on('back', () => 'fallback');
+  // Jog dial: step one frame per notch. Sites can't report their frame
+  // rate, so assume 24 fps, the usual rate for film and TV.
+  S.on('frame', arg => {
+    const v = document.querySelector('video');
+    if (!v || !v.duration) return 'fallback';
+    v.pause();
+    v.currentTime = Math.min(v.duration, Math.max(0, v.currentTime + parseFloat(arg) / 24));
+  });
 
   setTimeout(S.updateContext, 0);
 })();

@@ -1,5 +1,8 @@
 {
   "holdMs": 650,
+  "jog": {
+    "degreesPerStep": 20
+  },
   "repeat": {
     "delayMs": 380,
     "intervalMs": 110,
@@ -41,6 +44,8 @@
       "y": { "action": "skip", "label": "Skip intro" },
       "x": { "action": "subtitles", "label": "Subtitles" },
       "righttrigger": { "action": "next_episode", "label": "Next episode" },
+      "rscw": { "action": "frame:+1", "label": "Frame step" },
+      "rsccw": "frame:-1",
       "start": { "action": "help", "label": "Controls" }
     }
   }

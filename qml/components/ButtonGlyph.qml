@@ -10,6 +10,7 @@ Rectangle {
         leftshoulder: "L1", rightshoulder: "R1", lefttrigger: "L2", righttrigger: "R2",
         dpleft: "◀", dpright: "▶", dpup: "▲", dpdown: "▼",
         start: "☰", back: "⧉", leftstick: "L3", rightstick: "R3",
+        rscw: "R ↻", rsccw: "R ↺",
     })
     readonly property bool face: ["a", "b", "x", "y"].indexOf(button) >= 0
 

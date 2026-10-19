@@ -6,6 +6,8 @@
 #include <QSet>
 #include <QTimer>
 
+#include "JogDial.h"
+
 struct _SDL_GameController;
 
 // Reads controllers through SDL2's GameController API.
@@ -37,9 +39,13 @@ public:
     // Lower the idle rate further, e.g. while the app is in the background.
     void setThrottled(bool throttled);
 
+    // Degrees of right-stick rotation per "rscw"/"rsccw" press.
+    void setJogStepDegrees(qreal degrees) { m_jog.setStepDegrees(degrees); }
+
 signals:
     // Button names follow SDL's mapping strings: "a", "b", "dpleft",
-    // "leftshoulder", ... plus "lefttrigger"/"righttrigger".
+    // "leftshoulder", ... plus "lefttrigger"/"righttrigger", and
+    // "rscw"/"rsccw" (one press per jog step of right-stick rotation).
     void buttonPressed(const QString &button);
     void buttonReleased(const QString &button);
     // Emitted every poll while the right stick is deflected.
@@ -53,6 +59,7 @@ private:
     void setButton(const QString &button, bool down);
     void updateTrigger(const QString &name, qint16 raw);
     void updateStickDpad();
+    void updateJog();
     void scheduleNextPoll();
 
     QTimer m_timer;
@@ -61,6 +68,7 @@ private:
     QSet<QString> m_held;
     QPointF m_left;
     QPointF m_right;
+    JogDial m_jog;
     bool m_throttled = false;
     bool m_ok = false;
 };

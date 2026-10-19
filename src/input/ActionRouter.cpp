@@ -16,8 +16,16 @@ const QStringList kHintOrder = {
     QStringLiteral("dpleft"), QStringLiteral("dpright"), QStringLiteral("dpup"), QStringLiteral("dpdown"),
     QStringLiteral("leftshoulder"), QStringLiteral("rightshoulder"),
     QStringLiteral("lefttrigger"), QStringLiteral("righttrigger"),
+    QStringLiteral("rscw"), QStringLiteral("rsccw"),
     QStringLiteral("start"), QStringLiteral("back"),
 };
+
+// Jog steps are instantaneous: they fire on press and never take part in
+// hold/repeat, so rolling the stick doesn't cancel a held d-pad repeat.
+bool isJogStep(const QString &button)
+{
+    return button == QLatin1String("rscw") || button == QLatin1String("rsccw");
+}
 
 // The left stick emits "ls*" so it can be bound separately, but by default
 // it behaves exactly like the d-pad.
@@ -31,6 +39,7 @@ QString stickFallback(const QString &button)
 
 ActionRouter::ActionRouter(GamepadInput *input, QObject *parent)
     : QObject(parent)
+    , m_input(input)
 {
     connect(input, &GamepadInput::buttonPressed, this, &ActionRouter::onPressed);
     connect(input, &GamepadInput::buttonReleased, this, &ActionRouter::onReleased);
@@ -74,6 +83,9 @@ void ActionRouter::loadBindings(const QStringList &paths)
             }
         }
         m_holdMs = root.value(QLatin1String("holdMs")).toInt(m_holdMs);
+        const QJsonObject jog = root.value(QLatin1String("jog")).toObject();
+        if (jog.contains(QLatin1String("degreesPerStep")))
+            m_input->setJogStepDegrees(jog.value(QLatin1String("degreesPerStep")).toDouble());
 
         const QJsonObject contexts = root.value(QLatin1String("contexts")).toObject();
         for (auto ctx = contexts.begin(); ctx != contexts.end(); ++ctx) {
@@ -124,6 +136,11 @@ QVariantList ActionRouter::hints() const
     return out;
 }
 
+bool ActionRouter::rightStickJog() const
+{
+    return lookup(QStringLiteral("rscw")) || lookup(QStringLiteral("rsccw"));
+}
+
 const ActionRouter::Binding *ActionRouter::lookup(const QString &key) const
 {
     auto ctx = m_contexts.constFind(m_context);
@@ -153,6 +170,12 @@ void ActionRouter::fire(const Binding &binding)
 
 void ActionRouter::onPressed(const QString &button)
 {
+    if (isJogStep(button)) {
+        if (const Binding *b = lookup(button))
+            fire(*b);
+        return;
+    }
+
     m_repeatTimer.stop();
     m_holdTimer.stop();
     m_activeButton = button;

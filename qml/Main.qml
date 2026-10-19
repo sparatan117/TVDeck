@@ -44,7 +44,7 @@ Window {
     Binding {
         target: Pointer
         property: "enabled"
-        value: win.inService && !dialog.visible
+        value: win.inService && !dialog.visible && !Router.rightStickJog
     }
 
     Connections {

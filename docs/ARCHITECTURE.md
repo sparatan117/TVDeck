@@ -24,6 +24,13 @@ or deflected, 33 ms idle, 100 ms when unfocused). It emits SDL button names
 `righttrigger` buttons, and makes the left stick act as a second d-pad
 (`lsleft`…, which fall back to the `dp*` bindings).
 
+Rolling the right stick around its rim acts as a jog dial (`JogDial.h`):
+every `jog.degreesPerStep` degrees of travel (default 20) emits one `rscw`
+(clockwise) or `rsccw` press. Rotation only counts while the stick is near
+the rim, so straight pushes never step. In contexts that bind those
+buttons (by default, `player`) the right stick jogs instead of moving the
+pointer.
+
 `ActionRouter` maps buttons to actions using the bindings for the current
 context:
 

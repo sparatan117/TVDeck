@@ -13,6 +13,8 @@ it loads the service's normal website, then adds:
 - **D-pad navigation** of the site (focus ring + geometric "spatial nav")
 - **Player shortcuts** on the controller: play/pause, ±10s/±30s seek,
   skip intro, next episode, subtitles, volume
+- **Jog dial**: roll the right stick around its rim to step through the
+  video frame by frame, like the jog wheel on a VCR remote
 - **A right-stick cursor** for anything spatial nav can't reach
 - **Steam on-screen keyboard** when a text field is selected
 - **Battery-conscious behavior** (see [docs/POWER.md](docs/POWER.md))
@@ -36,11 +38,14 @@ Netflix is the first and only service for now.
 | L1 / R1 | — | Page up / down | Seek ∓30s |
 | R2 | — | — | Next episode |
 | Start | — | Show controls | Show controls |
-| Right stick | — | Cursor | Cursor |
+| Right stick | — | Cursor | — |
+| Rotate right stick | — | — | Step one frame per 20° (↻ forward, ↺ back) |
 
 Rebind anything by copying [`config/bindings.json`](config/bindings.json) to
 `~/.config/tvdeck/bindings.json` and editing it; entries there override the
-defaults, and `null` unbinds a button.
+defaults, and `null` unbinds a button. The jog dial is the `rscw` /
+`rsccw` pair (one press per notch); `jog.degreesPerStep` sets the notch
+size, and binding it to e.g. `seek:+5` turns it into a coarser scrubber.
 
 ## Building
 

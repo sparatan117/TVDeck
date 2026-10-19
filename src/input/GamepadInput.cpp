@@ -122,6 +122,16 @@ void GamepadInput::updateStickDpad()
     axis(QStringLiteral("lsup"), QStringLiteral("lsdown"), m_left.y());
 }
 
+void GamepadInput::updateJog()
+{
+    const int steps = m_jog.update(m_right);
+    const QString button = steps > 0 ? QStringLiteral("rscw") : QStringLiteral("rsccw");
+    for (int i = 0; i < qAbs(steps); ++i) {
+        emit buttonPressed(button);
+        emit buttonReleased(button);
+    }
+}
+
 void GamepadInput::poll()
 {
     const qreal dt = m_clock.restart() / 1000.0;
@@ -169,6 +179,7 @@ void GamepadInput::poll()
     updateTrigger(QStringLiteral("lefttrigger"), lt);
     updateTrigger(QStringLiteral("righttrigger"), rt);
     updateStickDpad();
+    updateJog();
 
     if (!m_right.isNull())
         emit rightStickActive(m_right, dt);

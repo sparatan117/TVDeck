@@ -17,6 +17,7 @@ qt_add_executable(tvdeck
     src/input/GamepadInput.cpp      src/input/GamepadInput.h
     src/input/ActionRouter.cpp      src/input/ActionRouter.h
     src/input/VirtualPointer.cpp    src/input/VirtualPointer.h
+    src/input/JogDial.h
     src/services/ServiceRegistry.cpp src/services/ServiceRegistry.h
     src/platform/Platform.cpp       src/platform/Platform.h
 )
@@ -55,3 +56,12 @@ include(GNUInstallDirs)
 install(TARGETS tvdeck RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES packaging/io.github.sparatan117.TVDeck.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 install(PROGRAMS scripts/install-widevine.sh DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tvdeck-install-widevine)
+
+include(CTest)
+if(BUILD_TESTING)
+    find_package(Qt6 REQUIRED COMPONENTS Test)
+    qt_add_executable(tst_jogdial tests/tst_jogdial.cpp)
+    target_include_directories(tst_jogdial PRIVATE src)
+    target_link_libraries(tst_jogdial PRIVATE Qt6::Test)
+    add_test(NAME jogdial COMMAND tst_jogdial)
+endif()

@@ -18,6 +18,9 @@ class ActionRouter : public QObject
     Q_OBJECT
     Q_PROPERTY(QString context READ context WRITE setContext NOTIFY contextChanged)
     Q_PROPERTY(QVariantList hints READ hints NOTIFY contextChanged)
+    // True when the current context binds right-stick rotation, in which
+    // case the stick jogs instead of moving the pointer.
+    Q_PROPERTY(bool rightStickJog READ rightStickJog NOTIFY contextChanged)
 
 public:
     explicit ActionRouter(GamepadInput *input, QObject *parent = nullptr);
@@ -30,6 +33,8 @@ public:
 
     // [{button, label, hold}] for the on-screen button bar.
     QVariantList hints() const;
+
+    bool rightStickJog() const;
 
     // Lets QML feed keyboard input through the same path (desktop testing).
     Q_INVOKABLE void inject(const QString &button, bool pressed);
@@ -50,6 +55,7 @@ private:
     const Binding *lookup(const QString &key) const;
     void fire(const Binding &binding);
 
+    GamepadInput *m_input;
     QHash<QString, ContextMap> m_contexts;
     QString m_context = QStringLiteral("launcher");
 

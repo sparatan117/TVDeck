@@ -29,6 +29,9 @@ Item {
         anchors.rightMargin: 40
         anchors.verticalCenter: parent.verticalCenter
         spacing: 26
+        // Busy contexts (the player) list more buttons than fit at 1280 px.
+        transformOrigin: Item.Right
+        scale: Math.min(1, (root.width - 80) / Math.max(1, implicitWidth))
 
         Repeater {
             model: root.model
