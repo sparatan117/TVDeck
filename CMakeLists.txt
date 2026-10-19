@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(streamdeck VERSION 0.1.0 LANGUAGES CXX)
+project(tvdeck VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -12,7 +12,7 @@ find_package(SDL2 REQUIRED CONFIG)
 qt_standard_project_setup()
 add_compile_definitions(PROJECT_VERSION_STRING="${PROJECT_VERSION}")
 
-qt_add_executable(streamdeck
+qt_add_executable(tvdeck
     src/main.cpp
     src/input/GamepadInput.cpp      src/input/GamepadInput.h
     src/input/ActionRouter.cpp      src/input/ActionRouter.h
@@ -21,8 +21,8 @@ qt_add_executable(streamdeck
     src/platform/Platform.cpp       src/platform/Platform.h
 )
 
-qt_add_qml_module(streamdeck
-    URI StreamDeck
+qt_add_qml_module(tvdeck
+    URI TVDeck
     VERSION 1.0
     RESOURCE_PREFIX /
     QML_FILES
@@ -36,7 +36,7 @@ qt_add_qml_module(streamdeck
 )
 
 # Service definitions, bindings and injected page scripts.
-qt_add_resources(streamdeck "data"
+qt_add_resources(tvdeck "data"
     PREFIX /
     FILES
         services/netflix.json
@@ -46,12 +46,12 @@ qt_add_resources(streamdeck "data"
         scripts/netflix/netflix.js
 )
 
-target_link_libraries(streamdeck PRIVATE
+target_link_libraries(tvdeck PRIVATE
     Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::DBus Qt6::WebEngineQuick
     SDL2::SDL2
 )
 
 include(GNUInstallDirs)
-install(TARGETS streamdeck RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES packaging/io.github.streamdeck.StreamDeck.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
-install(PROGRAMS scripts/install-widevine.sh DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME streamdeck-install-widevine)
+install(TARGETS tvdeck RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES packaging/io.github.tvdeck.TVDeck.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+install(PROGRAMS scripts/install-widevine.sh DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tvdeck-install-widevine)

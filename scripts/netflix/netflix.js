@@ -2,14 +2,14 @@
 //
 // Playback goes through the player API the Netflix web app uses internally.
 // It's undocumented and can change without notice, so every action returns
-// 'fallback' when it's unavailable and StreamDeck sends the equivalent Netflix
+// 'fallback' when it's unavailable and TVDeck sends the equivalent Netflix
 // keyboard shortcut instead (see keyFallbacks in services/netflix.json).
 //
 // Don't seek through video.currentTime: Netflix detects it and stops
 // playback with error M7375.
 (function () {
   'use strict';
-  const S = window.__streamdeck;
+  const S = window.__tvdeck;
   if (!S || S.netflix) return;
   const N = S.netflix = {};
 

@@ -43,8 +43,8 @@ QByteArray chromiumFlags(const QString &widevinePath)
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationName(QStringLiteral("streamdeck"));
-    QCoreApplication::setApplicationName(QStringLiteral("streamdeck"));
+    QCoreApplication::setOrganizationName(QStringLiteral("tvdeck"));
+    QCoreApplication::setApplicationName(QStringLiteral("tvdeck"));
     QCoreApplication::setApplicationVersion(QStringLiteral(PROJECT_VERSION_STRING));
 
     // Flags must be in the environment before Qt WebEngine starts Chromium.
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     options.windowed = parser.isSet(windowed);
     options.startupService = parser.value(service);
     if (widevine.isEmpty())
-        qWarning() << "Widevine CDM not found; DRM video will not play. Run streamdeck-install-widevine.";
+        qWarning() << "Widevine CDM not found; DRM video will not play. Run tvdeck-install-widevine.";
     else
         qInfo() << "Using Widevine CDM at" << widevine;
 
@@ -90,16 +90,16 @@ int main(int argc, char *argv[])
                          gamepad.setThrottled(state != Qt::ApplicationActive);
                      });
 
-    qmlRegisterSingletonInstance("StreamDeck.Native", 1, 0, "Gamepad", &gamepad);
-    qmlRegisterSingletonInstance("StreamDeck.Native", 1, 0, "Router", &router);
-    qmlRegisterSingletonInstance("StreamDeck.Native", 1, 0, "Pointer", &pointer);
-    qmlRegisterSingletonInstance("StreamDeck.Native", 1, 0, "Services", &services);
-    qmlRegisterSingletonInstance("StreamDeck.Native", 1, 0, "Platform", &platform);
+    qmlRegisterSingletonInstance("TVDeck.Native", 1, 0, "Gamepad", &gamepad);
+    qmlRegisterSingletonInstance("TVDeck.Native", 1, 0, "Router", &router);
+    qmlRegisterSingletonInstance("TVDeck.Native", 1, 0, "Pointer", &pointer);
+    qmlRegisterSingletonInstance("TVDeck.Native", 1, 0, "Services", &services);
+    qmlRegisterSingletonInstance("TVDeck.Native", 1, 0, "Platform", &platform);
 
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app,
                      [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
-    engine.load(QUrl(QStringLiteral("qrc:/StreamDeck/qml/Main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/TVDeck/qml/Main.qml")));
     if (engine.rootObjects().isEmpty())
         return 1;
 

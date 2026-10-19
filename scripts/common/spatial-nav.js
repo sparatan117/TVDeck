@@ -5,7 +5,7 @@
 // the site's own CSS can't hide it, and it needs no <style> tag (CSP-safe).
 (function () {
   'use strict';
-  const S = window.__streamdeck;
+  const S = window.__tvdeck;
   if (!S || S.nav) return;
 
   const nav = S.nav = {

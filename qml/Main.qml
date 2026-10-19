@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import StreamDeck.Native
+import TVDeck.Native
 import "components"
 
 Window {
@@ -10,7 +10,7 @@ Window {
     visible: true
     visibility: Platform.windowed ? Window.Windowed : Window.FullScreen
     color: "#08080b"
-    title: "StreamDeck"
+    title: "TVDeck"
 
     property var activeService: null
     readonly property bool inService: activeService !== null
@@ -79,7 +79,7 @@ Window {
         focus: !win.inService
         services: Services.services
         onLaunchRequested: (svc) => win.openService(svc)
-        onQuitRequested: dialog.ask(qsTr("Quit StreamDeck?"), () => Qt.quit())
+        onQuitRequested: dialog.ask(qsTr("Quit TVDeck?"), () => Qt.quit())
 
         // Desktop testing without a controller.
         Keys.onPressed: (event) => win.forwardKey(event, true)

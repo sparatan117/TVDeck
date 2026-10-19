@@ -36,11 +36,11 @@ QString Platform::findWidevine()
 {
     const QString lib = QStringLiteral("libwidevinecdm.so");
     QStringList candidates;
-    if (qEnvironmentVariableIsSet("STREAMDECK_WIDEVINE_PATH"))
-        candidates << qEnvironmentVariable("STREAMDECK_WIDEVINE_PATH");
+    if (qEnvironmentVariableIsSet("TVDECK_WIDEVINE_PATH"))
+        candidates << qEnvironmentVariable("TVDECK_WIDEVINE_PATH");
     // Where scripts/install-widevine.sh puts it (also works inside Flatpak).
     candidates << QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
-                      + QStringLiteral("/streamdeck/widevine/_platform_specific/linux_x64/") + lib;
+                      + QStringLiteral("/tvdeck/widevine/_platform_specific/linux_x64/") + lib;
     // System browsers that already ship the CDM.
     candidates << QStringLiteral("/opt/google/chrome/WidevineCdm/_platform_specific/linux_x64/") + lib
                << QStringLiteral("/usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/") + lib

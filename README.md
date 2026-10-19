@@ -1,11 +1,11 @@
-# StreamDeck
+# TVDeck
 
 A controller-first launcher for streaming services on **Steam Deck** and
 **Steam Machine**, in the spirit of ES-DE: a 10-foot carousel of services,
 each one opened in a lightweight Chromium view and driven entirely from the
 gamepad.
 
-StreamDeck is a web wrapper. It doesn't use private service APIs to fetch content;
+TVDeck is a web wrapper. It doesn't use private service APIs to fetch content;
 it loads the service's normal website, then adds:
 
 - **D-pad navigation** of the site (focus ring + geometric "spatial nav")
@@ -17,7 +17,7 @@ it loads the service's normal website, then adds:
 
 Netflix is the first and only service for now.
 
-> StreamDeck is not affiliated with or endorsed by Netflix or Valve. You need your
+> TVDeck is not affiliated with or endorsed by Netflix or Valve. You need your
 > own Netflix account. Service names are used only to identify them; no
 > logos are shipped.
 
@@ -28,7 +28,7 @@ Netflix is the first and only service for now.
 | D-pad / left stick | Move | Move focus | ◀▶ seek ∓10s, ▲▼ volume |
 | A | Open | Select (or click at cursor) | Play / pause |
 | B | Quit | Back | Exit player |
-| Hold B | — | Home (back to StreamDeck) | Home |
+| Hold B | — | Home (back to TVDeck) | Home |
 | X | — | Keyboard | Cycle subtitles |
 | Y | — | Search | Skip intro / recap |
 | L1 / R1 | — | Page up / down | Seek ∓30s |
@@ -37,7 +37,7 @@ Netflix is the first and only service for now.
 | Right stick | — | Cursor | Cursor |
 
 Rebind anything by copying [`config/bindings.json`](config/bindings.json) to
-`~/.config/streamdeck/bindings.json` and editing it; entries there override the
+`~/.config/tvdeck/bindings.json` and editing it; entries there override the
 defaults, and `null` unbinds a button.
 
 ## Building
@@ -53,7 +53,7 @@ are not.
 ```sh
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
-./build/streamdeck --windowed
+./build/tvdeck --windowed
 ```
 
 Options: `--windowed`, `--service <id>` (skip the launcher).
@@ -68,20 +68,20 @@ scripts/install-widevine.sh            # native build
 scripts/install-widevine.sh --flatpak  # Flatpak build
 ```
 
-StreamDeck also finds an existing Google Chrome or Chromium install, or a path in
-`STREAMDECK_WIDEVINE_PATH`.
+TVDeck also finds an existing Google Chrome or Chromium install, or a path in
+`TVDECK_WIDEVINE_PATH`.
 
 ### Flatpak / Steam
 
 See [`packaging/flatpak`](packaging/flatpak) and
-[`packaging/steam/README.md`](packaging/steam/README.md) for adding StreamDeck to
+[`packaging/steam/README.md`](packaging/steam/README.md) for adding TVDeck to
 Steam and choosing the right controller layout.
 
 ## Known limitations
 
 - **Resolution.** Browsers on Linux get Widevine L3, which Netflix typically
   caps at 720p. Fine on the Deck's 800p panel; noticeable on a TV.
-- **Netflix's player API is undocumented.** StreamDeck uses the same internal
+- **Netflix's player API is undocumented.** TVDeck uses the same internal
   player object the Netflix site uses (seeking via `video.currentTime`
   triggers error M7375). If Netflix changes it, actions fall back to
   Netflix's own keyboard shortcuts, sent as real key events.

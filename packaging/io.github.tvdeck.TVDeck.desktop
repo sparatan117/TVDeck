@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=StreamDeck
+Name=TVDeck
 GenericName=Streaming Launcher
 Comment=Controller-first launcher for streaming services
-Exec=streamdeck
+Exec=tvdeck
 Categories=AudioVideo;Video;Player;
 Keywords=netflix;streaming;tv;steam deck;

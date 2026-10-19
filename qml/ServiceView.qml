@@ -1,6 +1,6 @@
 import QtQuick
 import QtWebEngine
-import StreamDeck.Native
+import TVDeck.Native
 
 // Hosts one streaming service in a Chromium view and translates controller
 // actions into calls on the injected page bridge (scripts/common/bridge.js).
@@ -15,7 +15,7 @@ Item {
     property bool playing: false
 
     // Must match post() in scripts/common/bridge.js.
-    readonly property string bridgePrefix: "__streamdeck:"
+    readonly property string bridgePrefix: "__tvdeck:"
 
     signal exitRequested()
     signal osdRequested(string text)
@@ -38,7 +38,7 @@ Item {
         }
 
         const raw = arg ? name + ":" + arg : name
-        const call = "window.__streamdeck ? window.__streamdeck.handle(" + JSON.stringify(name) + ","
+        const call = "window.__tvdeck ? window.__tvdeck.handle(" + JSON.stringify(name) + ","
                      + JSON.stringify(arg) + ") : 'fallback'"
         web.runJavaScript(call, function (result) {
             if (result === "exit") {
@@ -84,7 +84,7 @@ Item {
             web.lifecycleState = WebEngineView.LifecycleState.Active
             web.forceActiveFocus()
         } else {
-            web.runJavaScript("window.__streamdeck && window.__streamdeck.handle('pause')")
+            web.runJavaScript("window.__tvdeck && window.__tvdeck.handle('pause')")
             playing = false
             // Let the pause land before freezing; a page can't be frozen
             // while it's still visible anyway.
@@ -119,17 +119,17 @@ Item {
         onTriggered: web.reload()
     }
 
-    // Page console output: QT_LOGGING_RULES="streamdeck.page.debug=true"
+    // Page console output: QT_LOGGING_RULES="tvdeck.page.debug=true"
     LoggingCategory {
         id: pageLog
-        name: "streamdeck.page"
+        name: "tvdeck.page"
         defaultLogLevel: LoggingCategory.Warning
     }
 
     WebEngineProfile {
         id: profile
         // Separate cookie jar and cache per service.
-        storageName: "streamdeck-" + root.service.id
+        storageName: "tvdeck-" + root.service.id
         offTheRecord: false
         persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
         httpCacheType: WebEngineProfile.DiskHttpCache
@@ -186,7 +186,7 @@ Item {
         profile.httpUserAgent = profile.httpUserAgent.replace(/ ?QtWebEngine\/\S+/, "")
 
         const script = WebEngine.script()
-        script.name = "streamdeck-" + service.id
+        script.name = "tvdeck-" + service.id
         script.sourceCode = Services.scriptBundle(service.id)
         script.injectionPoint = WebEngineScript.DocumentReady
         script.worldId = WebEngineScript.MainWorld

@@ -1,15 +1,15 @@
-# Build: flatpak-builder --user --install build-flatpak packaging/flatpak/io.github.streamdeck.StreamDeck.yml
+# Build: flatpak-builder --user --install build-flatpak packaging/flatpak/io.github.tvdeck.TVDeck.yml
 #
 # Uses Flathub's Qt WebEngine BaseApp so we don't rebuild Chromium. Before
 # relying on it, confirm the BaseApp version you pin is built with
 # proprietary codecs (H.264/AAC); Netflix needs them.
-app-id: io.github.streamdeck.StreamDeck
+app-id: io.github.tvdeck.TVDeck
 runtime: org.kde.Platform
 runtime-version: '6.8'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
 base-version: '6.8'
-command: streamdeck
+command: tvdeck
 finish-args:
   - --share=ipc
   - --share=network
@@ -24,7 +24,7 @@ finish-args:
 cleanup-commands:
   - /app/cleanup-BaseApp.sh
 modules:
-  - name: streamdeck
+  - name: tvdeck
     buildsystem: cmake-ninja
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
