@@ -2,3 +2,6 @@ build*/
 .flatpak-builder/
 *.user
 compile_commands.json
+repo/
+build-flatpak/
+*.flatpak

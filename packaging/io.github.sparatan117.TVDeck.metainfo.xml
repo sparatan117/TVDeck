@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.sparatan117.TVDeck</id>
+  <name>TVDeck</name>
+  <developer id="io.github.sparatan117">
+    <name>sparatan117</name>
+  </developer>
+  <summary>A streaming deck experience for your SteamOS machine</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <description>
+    <p>
+      A controller-first launcher for streaming services on Steam Deck and
+      Steam Machine. Each service opens in a lightweight browser view you can
+      drive entirely from a gamepad, with player shortcuts for pausing,
+      seeking, skipping intros and frame-by-frame stepping.
+    </p>
+    <p>
+      TVDeck is not affiliated with or endorsed by any streaming service. You
+      need your own account for each service.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.sparatan117.TVDeck.desktop</launchable>
+  <url type="homepage">https://github.com/sparatan117/TVDeck</url>
+  <url type="bugtracker">https://github.com/sparatan117/TVDeck/issues</url>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <supports>
+    <control>gamepad</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-10-19"/>
+  </releases>
+</component>

@@ -47,6 +47,27 @@ defaults, and `null` unbinds a button. The jog dial is the `rscw` /
 `rsccw` pair (one press per notch); `jog.degreesPerStep` sets the notch
 size, and binding it to e.g. `seek:+5` turns it into a coarser scrubber.
 
+## Installing (Steam Deck / Steam Machine)
+
+1. Switch to **Desktop Mode**.
+2. Download `TVDeck.flatpak` from the
+   [latest release](https://github.com/sparatan117/TVDeck/releases/latest)
+   (or from the "Artifacts" of a recent
+   [Flatpak build](https://github.com/sparatan117/TVDeck/actions/workflows/flatpak.yml)).
+3. Install it from a terminal (Konsole):
+   ```sh
+   flatpak install --user ~/Downloads/TVDeck.flatpak
+   ```
+   Flatpak fetches the KDE runtime from Flathub the first time.
+4. Install Widevine once so Netflix video can play:
+   ```sh
+   flatpak run --command=tvdeck-install-widevine io.github.sparatan117.TVDeck
+   ```
+5. Add TVDeck to Steam — see
+   [`packaging/steam/README.md`](packaging/steam/README.md).
+
+To build the Flatpak yourself: `packaging/flatpak/build.sh --install`.
+
 ## Building
 
 Requirements: CMake ≥ 3.21, a C++17 compiler, Qt ≥ 6.4 (Core, Gui, Qml,
@@ -78,11 +99,6 @@ scripts/install-widevine.sh --flatpak  # Flatpak build
 TVDeck also finds an existing Google Chrome or Chromium install, or a path in
 `TVDECK_WIDEVINE_PATH`.
 
-### Flatpak / Steam
-
-See [`packaging/flatpak`](packaging/flatpak) and
-[`packaging/steam/README.md`](packaging/steam/README.md) for adding TVDeck to
-Steam and choosing the right controller layout.
 
 ## Known limitations
 

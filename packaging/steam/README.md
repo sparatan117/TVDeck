@@ -3,10 +3,12 @@
 TVDeck runs as a non-Steam game so it works in Game Mode on Steam Deck and
 Steam Machine.
 
-1. Switch to Desktop Mode and install TVDeck (Flatpak or a local build).
-2. Install Widevine once: `tvdeck-install-widevine`
-   (Flatpak: `scripts/install-widevine.sh --flatpak`).
+1. Switch to Desktop Mode and install TVDeck (see the main README).
+2. Install Widevine once:
+   `flatpak run --command=tvdeck-install-widevine io.github.sparatan117.TVDeck`
+   (for a native build: `tvdeck-install-widevine`).
 3. In Steam: **Games → Add a Non-Steam Game to My Library…**, pick TVDeck.
+   The Flatpak shows up in the list like any other app.
 4. Optional: add it a second time with launch option `--service netflix`
    to get a tile that jumps straight into Netflix.
 5. Back in Game Mode, open the shortcut's **Controller settings** and pick

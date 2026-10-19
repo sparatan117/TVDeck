@@ -7,7 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Qt 6.4 is the floor so this builds on common distros, but Netflix tracks
 # recent Chromium releases closely: ship with Qt 6.8+ (Chromium 122+).
 find_package(Qt6 6.4 REQUIRED COMPONENTS Core Gui Qml Quick DBus WebEngineQuick)
-find_package(SDL2 REQUIRED CONFIG)
+# Prefer SDL2's CMake package; fall back to pkg-config for runtimes that only
+# ship the .pc file.
+find_package(SDL2 CONFIG QUIET)
+if(NOT TARGET SDL2::SDL2)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+    add_library(SDL2::SDL2 ALIAS PkgConfig::SDL2)
+endif()
 
 qt_standard_project_setup()
 add_compile_definitions(PROJECT_VERSION_STRING="${PROJECT_VERSION}")
@@ -54,7 +61,10 @@ target_link_libraries(tvdeck PRIVATE
 
 include(GNUInstallDirs)
 install(TARGETS tvdeck RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES packaging/io.github.sparatan117.TVDeck.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+set(APP_ID io.github.sparatan117.TVDeck)
+install(FILES packaging/${APP_ID}.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+install(FILES packaging/${APP_ID}.metainfo.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo)
+install(FILES packaging/${APP_ID}.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 install(PROGRAMS scripts/install-widevine.sh DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tvdeck-install-widevine)
 
 include(CTest)

@@ -6,3 +6,4 @@ Comment=Controller-first launcher for streaming services
 Exec=tvdeck
 Categories=AudioVideo;Video;Player;
 Keywords=netflix;streaming;tv;steam deck;
+Icon=io.github.sparatan117.TVDeck

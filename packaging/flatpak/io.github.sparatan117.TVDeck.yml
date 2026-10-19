@@ -1,8 +1,11 @@
-# Build: flatpak-builder --user --install build-flatpak packaging/flatpak/io.github.sparatan117.TVDeck.yml
+# Flatpak manifest for TVDeck.
 #
-# Uses Flathub's Qt WebEngine BaseApp so we don't rebuild Chromium. Before
-# relying on it, confirm the BaseApp version you pin is built with
-# proprietary codecs (H.264/AAC); Netflix needs them.
+# CI builds this on every push (.github/workflows/flatpak.yml). To build
+# locally, run packaging/flatpak/build.sh.
+#
+# Qt WebEngine comes from Flathub's BaseApp so we don't rebuild Chromium.
+# Netflix needs H.264/AAC: if video won't play, check that the pinned
+# BaseApp is built with proprietary codecs.
 app-id: io.github.sparatan117.TVDeck
 runtime: org.kde.Platform
 runtime-version: '6.8'
@@ -26,8 +29,15 @@ cleanup-commands:
 modules:
   - name: tvdeck
     buildsystem: cmake-ninja
+    builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
     sources:
       - type: dir
         path: ../..
+        skip:
+          - build
+          - build-flatpak
+          - .flatpak-builder
+          - repo
