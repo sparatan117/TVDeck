@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Build
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
@@ -44,20 +44,30 @@ jobs:
       options: --privileged
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install linter
         run: |
           flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
           flatpak install -y --noninteractive flathub org.flatpak.Builder
 
+      # Findings are also emitted as annotations so they show on the run
+      # summary without opening the log.
       - name: Lint manifest
-        run: >
-          flatpak run --command=flatpak-builder-lint org.flatpak.Builder
-          manifest packaging/flathub/io.github.sparatan117.TVDeck.yml
+        run: |
+          rc=0
+          out=$(flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
+                manifest packaging/flathub/io.github.sparatan117.TVDeck.yml 2>&1) || rc=$?
+          echo "$out"
+          echo "$out" | grep -E '"|error|warning' | sed 's/^/::warning title=Flathub lint (manifest)::/'
+          exit $rc
 
       - name: Lint metainfo
         if: always()
-        run: >
-          flatpak run --command=flatpak-builder-lint org.flatpak.Builder
-          appstream packaging/io.github.sparatan117.TVDeck.metainfo.xml
+        run: |
+          rc=0
+          out=$(flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
+                appstream packaging/io.github.sparatan117.TVDeck.metainfo.xml 2>&1) || rc=$?
+          echo "$out"
+          echo "$out" | grep -E '"|error|warning' | sed 's/^/::warning title=Flathub lint (metainfo)::/'
+          exit $rc
